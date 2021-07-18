@@ -185,6 +185,23 @@ class LSSRNode {
         cb()
         return this 
     }
+}
 
+class LineSideSquareRot {
 
+    curr : LSSRNode = new LSSRNode(0)
+    dir : number = 1
+
+    update(cb : Function) {
+        this.curr.update(() => {
+            this.curr = this.curr.getNext(this.dir, () => {
+                this.dir *= -1
+            })
+            cb()
+        })
+    }
+
+    startUpdating(cb : Function) {
+        this.curr.startUpdating(cb)
+    }
 }
