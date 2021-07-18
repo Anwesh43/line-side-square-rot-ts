@@ -1,5 +1,5 @@
-const w : number = window.innerWidth 
-const h : number = window.innerHeight 
+const w : number = window.innerWidth * 0.8
+const h : number = window.innerHeight * 0.8
 const colors : Array<string> = [
     "#EF5350",
     "#01579B",
@@ -8,7 +8,7 @@ const colors : Array<string> = [
     "#C51162"
 ]
 const parts : number = 4
-const scGap : number = 0.02 / parts 
+const scGap : number = 0.04 / parts 
 const strokeFactor : number = 90 
 const sizeFactor : number = 4.9 
 const delay : number = 20 
@@ -42,22 +42,23 @@ class DrawingUtil {
         const sc3 : number = ScaleUtil.divideScale(scale, 2, parts)
         const sc4 : number = ScaleUtil.divideScale(scale, 3, parts)
         context.save()
-        context.translate(w / 2 + (w / 2 + size / 2) * sc4, h / 2 + (h / 2 - size)  * (1 - sc2))
+        context.translate(w / 2 + (w / 2 + size / 2) * sc4, h - size / 2 - (h / 2 - size / 2) * sc2)
         context.rotate(Math.PI * sc2)
         for (var j = 0; j < 2; j++) {
-            context.save()
-            context.scale(1 - 2 * j, 1)
+            console.log("JSCAKE", j, (size / 2) * (1 - 2 * j), size * 0.5 * (1 - 2 * j))
+           
             if (sc1 > 0) {
-                DrawingUtil.drawLine(context, size / 2, size, size / 2, size - size * sc1)
+                context.save()
+                context.translate((size / 2) * (1 - 2 * j), 0)
+                DrawingUtil.drawLine(context, 0, size / 2, 0, size / 2 -size * sc1)
                 context.restore()
             }
             if (sc3 > 0) {
                 context.save()
-                context.scale(1, 1 - 2 * j)
-                DrawingUtil.drawLine(context, size / 2, size / 2, size / 2 - size * sc3, size / 2)
+                context.translate((size / 2) * (1 - 2 * j), size * 0.5 * (1 - 2 * j))
+                DrawingUtil.drawLine(context, 0, 0,  -size * sc3 * (1 - 2 * j), 0)
                 context.restore()
             }
-            context.restore()
         }
         context.restore()
     }
