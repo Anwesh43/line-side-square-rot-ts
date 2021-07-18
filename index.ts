@@ -204,4 +204,30 @@ class LineSideSquareRot {
     startUpdating(cb : Function) {
         this.curr.startUpdating(cb)
     }
+
+    draw(context : CanvasRenderingContext2D) {
+        this.curr.draw(context)
+    }
+}
+
+class Renderer {
+
+    lssr : LineSideSquareRot = new LineSideSquareRot()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.lssr.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.lssr.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.lssr.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
 }
